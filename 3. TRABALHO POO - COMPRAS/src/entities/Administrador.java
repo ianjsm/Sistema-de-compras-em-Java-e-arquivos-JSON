@@ -1,9 +1,86 @@
 package entities;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class Administrador extends Pessoa {
 
 	public Administrador(String tipo) {
 		super(tipo);
-
 	}
+
+	public static void adicionarProduto() {
+	    Scanner scan = new Scanner(System.in);
+
+	    System.out.print("Digite o id do produto: ");
+	    int id = scan.nextInt();
+	    scan.nextLine();
+	    System.out.print("Digite o nome do produto: ");
+	    String nome = scan.nextLine();
+	    System.out.print("Digite a descrição do produto: ");
+	    String descricao = scan.nextLine();
+	    System.out.print("Digite o preço do produto: ");
+	    double preco = scan.nextDouble();
+	    System.out.print("Digite a quantidade do produto: ");
+	    int quantidade = scan.nextInt();
+
+	    Produto produto = new Produto(id, nome, descricao, preco, quantidade);
+	    JSONObject produtoJSON = new JSONObject(produto);
+
+	    JSONArray listaProdutosJSON;
+
+	    File file = new File("C:\\Users\\ianjo\\OneDrive\\Área de Trabalho\\POO\\json\\produtos\\produtos.json");
+
+	    if (file.exists()) {
+	        String conteudoArquivo = lerArquivoProdutos(file);
+	        listaProdutosJSON = new JSONArray(conteudoArquivo);
+	    } else {
+	        listaProdutosJSON = new JSONArray();
+	    }
+
+	    listaProdutosJSON.put(produtoJSON);
+
+	    try (FileWriter writer = new FileWriter(file)) {
+	        writer.write(listaProdutosJSON.toString(4));
+	        System.out.println("Produto adicionado com sucesso!");
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+	public static String lerArquivoProdutos(File file) {
+	    try (FileReader reader = new FileReader(file)) {
+	        StringBuilder dadosJSON = new StringBuilder();
+	        int character;
+	        while ((character = reader.read()) != -1) {
+	            dadosJSON.append((char) character);
+	        }
+	        return dadosJSON.toString();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return "[]";
+	    }
+	}
+	/*
+	public static void editarProduto() {
+		Scanner scan = new Scanner(System.in);
+		File file = new File("C:\\Users\\ianjo\\OneDrive\\Área de Trabalho\\POO\\json\\produtos\\produtos.json");
+		
+		String conteudoArquivoJsonProdutos = lerArquivoProdutos(file);
+		
+		System.out.print("Digite o nome do produto que deseja editar: ");
+		String nome = scan.nextLine();
+		for()
+		
+	}
+	*/
 }

@@ -30,7 +30,7 @@ public class Main {
 			int opcao_submenu_admin = scan.nextInt();
 			
 			if(opcao_submenu_admin == 1) {
-				Produto.adicionarProduto();
+				Administrador.adicionarProduto();
 			}
 			else if(opcao_submenu_admin == 2) {
 				//editar produto
