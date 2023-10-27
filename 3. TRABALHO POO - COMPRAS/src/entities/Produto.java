@@ -6,7 +6,7 @@ public class Produto {
 	protected String descricao;
 	protected double preco;
 	protected int quantidade;
-	
+
 	public Produto(int id, String nome, String descricao, double preco, int quantidade) {
 		this.id = id;
 		this.nome = nome;
