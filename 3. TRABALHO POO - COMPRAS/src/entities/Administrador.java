@@ -142,4 +142,8 @@ public class Administrador extends Pessoa {
 		}
 		System.out.println("Produto não encontrado!");
 	}
+	
+	public static void visualizarHistoricoDeCompras() {
+		
+	}
 }
