@@ -74,7 +74,10 @@ public class Administrador extends Pessoa {
 
 		String conteudoArquivoJsonProdutos = lerArquivoProdutos(file);
 		JSONArray listaProdutosJSON = new JSONArray(conteudoArquivoJsonProdutos);
-
+		
+		System.out.println("Produtos disponíveis: ");
+		Pessoa.visualizarProdutos();
+		System.out.println();
 		System.out.print("Digite o nome do produto que deseja editar: ");
 		String nomeProdutoParaEditar = scan.nextLine();
 		for (int i = 0; i < listaProdutosJSON.length(); i++) {
@@ -118,6 +121,9 @@ public class Administrador extends Pessoa {
 		String conteudoDoArquivo = lerArquivoProdutos(file);
 		JSONArray listaProdutosJSON = new JSONArray(conteudoDoArquivo);
 		
+		System.out.println("Produtos disponíveis: ");
+		Pessoa.visualizarProdutos();
+		System.out.println();
 		System.out.print("Digite o nome do produto que deseja remover: ");
 		String nomeProdutoParaRemover = scan.nextLine();
 		for(int i = 0; i < listaProdutosJSON.length(); i++) {
