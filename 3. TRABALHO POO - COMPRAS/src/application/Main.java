@@ -53,7 +53,7 @@ public class Main {
 			} else if (opcao_submenu_admin == 3) {
 				Administrador.editarProduto();
 			} else if (opcao_submenu_admin == 4) {
-				// remover produto
+				Administrador.removerProduto();
 			} else if (opcao_submenu_admin == 5) {
 				// listar compras realizadas
 			} else if (opcao_submenu_admin == 6) {
