@@ -49,7 +49,7 @@ public class Administrador extends Pessoa {
 
 		JSONArray listaProdutosJSON;
 
-		File file = new File("C:\\Users\\ianjo\\OneDrive\\Área de Trabalho\\POO\\json\\produtos.json");
+		File file = new File("C:\\Users\\ianjo\\OneDrive\\Área de Trabalho\\POO\\json\\produtos\\produtos.json");
 
 		if (file.exists()) {
 			String conteudoArquivo = lerArquivoProdutos(file);

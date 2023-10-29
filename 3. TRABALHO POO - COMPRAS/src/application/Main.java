@@ -14,7 +14,6 @@ import util.Tela;
 public class Main {
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
-		Pessoa pessoa;
 		int opcao = 0;
 
 		while (opcao > 2 || opcao < 1) {
@@ -27,7 +26,7 @@ public class Main {
 
 		if (opcao == 1) {
 
-			pessoa = new Administrador(null);
+			Pessoa pessoa = new Administrador(null);
 
 			String senha;
 			boolean senhaCorreta = false;
@@ -62,9 +61,15 @@ public class Main {
 				System.out.println("Opção inválida!");
 			}
 		} else if (opcao == 2) {
-			pessoa = new Comprador(null);
+			Pessoa pessoa = new Comprador(null);
 			Tela.telaInicialComprador();
 			int opcao_submenu_comprador = scan.nextInt();
+			
+			if (opcao_submenu_comprador ==1) {
+				Pessoa.visualizarProdutos();
+				Comprador.comprarProduto();
+				Comprador.finalizarCompra();
+			}
 		}
 		scan.close();
 	}

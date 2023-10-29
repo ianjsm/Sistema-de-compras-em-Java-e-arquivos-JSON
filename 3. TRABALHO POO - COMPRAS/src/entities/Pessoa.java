@@ -16,18 +16,14 @@ public class Pessoa {
 
 	public static void visualizarProdutos() {
 		String caminhoArquivoProdutos = "C:\\Users\\ianjo\\OneDrive\\Área de Trabalho\\POO\\json\\produtos\\produtos.json";
-		
-		try (BufferedReader br = new BufferedReader(new FileReader(caminhoArquivoProdutos))) {
-            String linha;
-            while ((linha = br.readLine()) != null) {
-                System.out.println(linha);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-	}
 
-	public void comprarProduto() {
-		// nao pode comprar mais do que tiver no estoque
+		try (BufferedReader br = new BufferedReader(new FileReader(caminhoArquivoProdutos))) {
+			String linha;
+			while ((linha = br.readLine()) != null) {
+				System.out.println(linha);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
