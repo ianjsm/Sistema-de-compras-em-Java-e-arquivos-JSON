@@ -69,6 +69,12 @@ public class Main {
 					Pessoa.visualizarProdutos();
 					Comprador.comprarProduto();
 				}
+				else if(opcao_submenu_comprador == 2) {
+					//voltar ao menu inicial
+				}
+				else {
+					System.out.println("Opção inválida!");
+				}
 			} else if (opcao == 3) {
 				System.out.println("Programa encerrado.");
 				System.exit(0);

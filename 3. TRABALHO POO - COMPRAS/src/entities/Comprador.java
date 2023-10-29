@@ -3,6 +3,9 @@ package entities;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import org.json.JSONArray;
@@ -19,6 +22,7 @@ public class Comprador extends Pessoa {
 		JSONArray carrinho = new JSONArray();
 		double valorTotalCompra = 0;
 		boolean continuarComprando = true;
+		List<Produto> listaProdutos = new ArrayList<>();
 
 		while (continuarComprando) {
 			System.out.print("Digite o ID do produto que deseja comprar: ");
@@ -46,6 +50,8 @@ public class Comprador extends Pessoa {
 						produtoCarrinho.put("preco", produtoJSON.getDouble("preco"));
 						carrinho.put(produtoCarrinho);
 						System.out.println("Produto adicionado ao carrinho de compras!");
+						Produto produto = new Produto(idProduto, produtoJSON.getString("nome"), produtoJSON.getString("descricao"), produtoJSON.getDouble("preco"), quantidadeDesejada);
+						listaProdutos.add(produto);
 					} else {
 						System.out.println("Quantidade desejada maior do que a disponível.");
 						return;
@@ -116,100 +122,54 @@ public class Comprador extends Pessoa {
 		System.out.println("Qual a forma de pagamento desejada?");
 		System.out.print("Pagamento escolhido: ");
 		int formaPagamento = scan.nextInt();
-
+		
+		double valorFinal = 0;
+		
 		if (formaPagamento == 1) {
-			double valorFinal = valorTotalCompra;
-			System.out.println("Valor total: " + valorFinal);
+			System.out.println("Valor total: " + valorTotalCompra);
 		} else if (formaPagamento == 2) {
-			double valorFinal = valorTotalCompra * 0.9;
+			valorFinal = valorTotalCompra * 0.9;
 			System.out.println("Valor total: " + valorFinal);
 		} else {
 			System.out.println("Escolha uma forma de pagamento válida!");
 		}
+		
+		System.out.print("Digite seu nome: ");
+		scan.nextLine();
+		String nomeCliente = scan.nextLine();
+		
+		int id = 0;
+		id++;
+		Compra compra = new Compra(id, LocalDateTime.now() , nomeCliente, listaProdutos,valorFinal, valorTotalCompra);
+		List<Compra> compras = new ArrayList<>();
+		compras.add(compra);
+		
+		JSONArray comprasRealizadas = new JSONArray();
+		for(Compra c : compras) {
+			JSONObject compraJSON = new JSONObject();
+			compraJSON.put("idCompra", c.getIdCompra());
+			compraJSON.put("dataHora", c.getDataHora().toString());
+			compraJSON.put("nome", c.getNome());
+			
+			JSONArray produtosDaCompra = new JSONArray();
+			for(Produto produto : c.getListaProdutos()) {
+				JSONObject produtoJSON = new JSONObject();
+				produtoJSON.put("nome", produto.getNome());
+				produtoJSON.put("preco", produto.getPreco());
+				produtoJSON.put("quantidade", produto.getQuantidade());
+				produtosDaCompra.put(produtoJSON);
+			}
+			compraJSON.put("listaProdutos", produtosDaCompra);
+			compraJSON.put("precoComDesconto", c.getPrecoComDesconto());
+			compraJSON.put("precoSemDesconto", c.getPrecoSemDesconto());
+			
+			comprasRealizadas.put(compraJSON);
+		}
+		
+		try(FileWriter writer = new FileWriter("C:\\Users\\ianjo\\OneDrive\\Área de Trabalho\\POO\\json\\compras\\compras.json", true)){
+			writer.write(comprasRealizadas.toString(4));
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
-
-/*
- * public static void comprarProduto() { Scanner scan = new Scanner(System.in);
- * JSONArray carrinho = new JSONArray();
- * 
- * System.out.print("Digite o ID do produto que deseja comprar: "); int
- * idDesejado = scan.nextInt();
- * System.out.print("Digite a quantidade desejada: "); int quantidadeDesejada =
- * scan.nextInt();
- * 
- * File estoqueFile = new
- * File("C:\\Users\\ianjo\\OneDrive\\Área de Trabalho\\POO\\json\\produtos\\produtos.json"
- * ); String dadosJSON = Administrador.lerArquivoProdutos(estoqueFile);
- * 
- * JSONArray listaProdutosJSON = new JSONArray(dadosJSON);
- * 
- * for (int i = 0; i < listaProdutosJSON.length(); i++) { JSONObject produtoJSON
- * = listaProdutosJSON.getJSONObject(i); int idProduto =
- * produtoJSON.getInt("id"); int quantidadeDisponivel =
- * produtoJSON.getInt("quantidade");
- * 
- * if (idProduto == idDesejado) { if (quantidadeDesejada <=
- * quantidadeDisponivel) { JSONObject produtoCarrinho = new JSONObject();
- * produtoCarrinho.put("id", idProduto); produtoCarrinho.put("nome",
- * produtoJSON.getString("nome")); produtoCarrinho.put("quantidade",
- * quantidadeDesejada); produtoCarrinho.put("preco",
- * produtoJSON.getDouble("preco")); carrinho.put(produtoJSON);
- * System.out.println("Produto adicionado ao carrinho de compras!"); } else {
- * System.out.println("Quantidade desejada maior do que a disponível."); return;
- * } } }
- * 
- * try (FileWriter writer = new FileWriter( new
- * File("C:\\Users\\ianjo\\OneDrive\\Área de Trabalho\\POO\\json\\carrinho\\carrinho.json"
- * ))) { writer.write(carrinho.toString(4));
- * System.out.println("Carrinho salvo com sucesso!"); } catch (IOException e) {
- * e.printStackTrace(); } }
- * 
- * public static void finalizarCompra() { Scanner scan = new Scanner(System.in);
- * double valorTotalCompra = 0;
- * 
- * File fileCarrinho = new
- * File("C:\\Users\\ianjo\\OneDrive\\Área de Trabalho\\POO\\json\\carrinho\\carrinho.json"
- * ); File fileEstoque = new
- * File("C:\\Users\\ianjo\\OneDrive\\Área de Trabalho\\POO\\json\\produtos\\produtos.json"
- * ); String carrinhoJSON = Administrador.lerArquivoProdutos(fileCarrinho);
- * String estoqueJSON = Administrador.lerArquivoProdutos(fileEstoque); JSONArray
- * listaProdutosCarrinho = new JSONArray(carrinhoJSON); JSONArray
- * listaProdutosEstoque = new JSONArray(estoqueJSON); for (int i = 0; i <
- * listaProdutosCarrinho.length(); i++) { JSONObject produtoCarrinho =
- * listaProdutosCarrinho.getJSONObject(i); System.out.print("nome: ");
- * System.out.println(produtoCarrinho.getString("nome"));
- * System.out.print("quantidade: ");
- * System.out.println(produtoCarrinho.getInt("quantidade"));
- * System.out.print("preço: ");
- * System.out.println(produtoCarrinho.getDouble("preco")); int qntCarrinho =
- * produtoCarrinho.getInt("quantidade"); for (int j = 0; j <
- * listaProdutosEstoque.length(); j++) { JSONObject produtoEstoque =
- * listaProdutosEstoque.getJSONObject(j); if
- * (produtoCarrinho.getString("nome").equalsIgnoreCase(produtoEstoque.getString(
- * "nome"))) { int novaQntEstoque = produtoEstoque.getInt("quantidade") -
- * qntCarrinho; produtoEstoque.put("quantidade", novaQntEstoque); double valor =
- * produtoEstoque.getDouble("preco"); double precoTotalDoProduto = qntCarrinho *
- * valor; valorTotalCompra += precoTotalDoProduto; break; } } }
- * 
- * try (FileWriter writer = new FileWriter(fileEstoque)) {
- * writer.write(listaProdutosEstoque.toString(4)); } catch (IOException e) {
- * e.printStackTrace(); }
- * 
- * System.out.println(); System.out.print("Preço total da compra: " +
- * valorTotalCompra); System.out.println();
- * System.out.println("FORMAS DE PAGAMENTO DISPONÍVEIS:");
- * System.out.println("1- CRÉDITO");
- * System.out.println("2- DÉBITO (10% DE DESCONTO)"); System.out.println();
- * System.out.println("Qual a forma de pagamento desejada?");
- * System.out.print("Pagamento escolhido: "); int formaPagamento =
- * scan.nextInt();
- * 
- * if(formaPagamento == 1) { double valorFinal = valorTotalCompra;
- * System.out.println("Valor total: " + valorFinal); } else if(formaPagamento ==
- * 2) { double valorFinal = valorTotalCompra*0.9;
- * System.out.println("Valor total: " + valorFinal); } else {
- * System.out.println("Escolha uma forma de pagamento válida!"); }
- * 
- * //FALTA DEBITAR OS PRODUTOS DO ESTOQUE!!!!!!!!!!!! }
- */
