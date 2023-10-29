@@ -64,11 +64,10 @@ public class Main {
 			Pessoa pessoa = new Comprador(null);
 			Tela.telaInicialComprador();
 			int opcao_submenu_comprador = scan.nextInt();
-			
-			if (opcao_submenu_comprador ==1) {
+
+			if (opcao_submenu_comprador == 1) {
 				Pessoa.visualizarProdutos();
 				Comprador.comprarProduto();
-				Comprador.finalizarCompra();
 			}
 		}
 		scan.close();

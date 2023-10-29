@@ -74,7 +74,7 @@ public class Administrador extends Pessoa {
 
 		String conteudoArquivoJsonProdutos = lerArquivoProdutos(file);
 		JSONArray listaProdutosJSON = new JSONArray(conteudoArquivoJsonProdutos);
-		
+
 		System.out.println("Produtos disponíveis: ");
 		Pessoa.visualizarProdutos();
 		System.out.println();
@@ -116,25 +116,25 @@ public class Administrador extends Pessoa {
 
 	public static void removerProduto() {
 		Scanner scan = new Scanner(System.in);
-		
+
 		File file = new File("C:\\Users\\ianjo\\OneDrive\\Área de Trabalho\\POO\\json\\produtos\\produtos.json");
 		String conteudoDoArquivo = lerArquivoProdutos(file);
 		JSONArray listaProdutosJSON = new JSONArray(conteudoDoArquivo);
-		
+
 		System.out.println("Produtos disponíveis: ");
 		Pessoa.visualizarProdutos();
 		System.out.println();
 		System.out.print("Digite o nome do produto que deseja remover: ");
 		String nomeProdutoParaRemover = scan.nextLine();
-		for(int i = 0; i < listaProdutosJSON.length(); i++) {
+		for (int i = 0; i < listaProdutosJSON.length(); i++) {
 			JSONObject produtoJSON = listaProdutosJSON.getJSONObject(i);
 			String nome = produtoJSON.getString("nome");
-			if(nomeProdutoParaRemover.equalsIgnoreCase(nome)) {
+			if (nomeProdutoParaRemover.equalsIgnoreCase(nome)) {
 				listaProdutosJSON.remove(i);
-				try(FileWriter writer = new FileWriter(file)){
+				try (FileWriter writer = new FileWriter(file)) {
 					writer.write(listaProdutosJSON.toString(4));
 					System.out.println("Produto removido com sucesso!");
-				}catch(IOException e) {
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				return;
@@ -142,8 +142,8 @@ public class Administrador extends Pessoa {
 		}
 		System.out.println("Produto não encontrado!");
 	}
-	
+
 	public static void visualizarHistoricoDeCompras() {
-		
+
 	}
 }
