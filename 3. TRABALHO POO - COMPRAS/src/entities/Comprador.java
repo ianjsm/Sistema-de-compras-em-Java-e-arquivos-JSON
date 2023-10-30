@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -133,7 +134,7 @@ public class Comprador extends Pessoa {
 		} else {
 			System.out.println("Escolha uma forma de pagamento válida!");
 		}
-		
+		System.out.println();
 		System.out.print("Digite seu nome: ");
 		scan.nextLine();
 		String nomeCliente = scan.nextLine();
@@ -144,11 +145,13 @@ public class Comprador extends Pessoa {
 		List<Compra> compras = new ArrayList<>();
 		compras.add(compra);
 		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		
 		JSONArray comprasRealizadas = new JSONArray();
 		for(Compra c : compras) {
 			JSONObject compraJSON = new JSONObject();
 			compraJSON.put("idCompra", c.getIdCompra());
-			compraJSON.put("dataHora", c.getDataHora().toString());
+			compraJSON.put("data:", dtf.format(c.getDataHora()));
 			compraJSON.put("nome", c.getNome());
 			
 			JSONArray produtosDaCompra = new JSONArray();

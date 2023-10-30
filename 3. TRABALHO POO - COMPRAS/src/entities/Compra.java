@@ -81,8 +81,4 @@ public class Compra {
 		this.precoComDesconto = precoComDesconto;
 		this.precoSemDesconto = precoSemDesconto;
 	}
-	
-	public static void listarCompras() {
-		
-	}
 }

@@ -54,9 +54,9 @@ public class Main {
 				} else if (opcao_submenu_admin == 4) {
 					Administrador.removerProduto();
 				} else if (opcao_submenu_admin == 5) {
-					// listar compras realizadas
+					Administrador.visualizarHistoricoDeCompras();
 				} else if (opcao_submenu_admin == 6) {
-					// retornar ao menu inicial
+					voltarMenuInicial();
 				} else {
 					System.out.println("Opção inválida!");
 				}
@@ -70,7 +70,7 @@ public class Main {
 					Comprador.comprarProduto();
 				}
 				else if(opcao_submenu_comprador == 2) {
-					//voltar ao menu inicial
+					voltarMenuInicial();
 				}
 				else {
 					System.out.println("Opção inválida!");
@@ -83,5 +83,9 @@ public class Main {
 			}
 			scan.close();
 		}
+	}
+	
+	public static void voltarMenuInicial() {
+		main(null);
 	}
 }
