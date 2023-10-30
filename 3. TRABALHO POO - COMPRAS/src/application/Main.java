@@ -16,7 +16,7 @@ public class Main {
 		Scanner scan = new Scanner(System.in);
 		int opcao = 0;
 
-		while (opcao > 2 || opcao < 1) {
+		while (opcao != 3) {
 			System.out.println("1- ADMIN");
 			System.out.println("2- COMPRADOR");
 			System.out.println("3- SAIR DO PROGRAMA");
@@ -81,10 +81,10 @@ public class Main {
 			} else {
 				System.out.println("Opção inválida!");
 			}
-			scan.close();
 		}
+		scan.close();
 	}
-	
+		
 	public static void voltarMenuInicial() {
 		main(null);
 	}

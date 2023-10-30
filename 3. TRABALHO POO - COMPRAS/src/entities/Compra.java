@@ -8,13 +8,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class Compra {
+	private static int proximoIdCompra = 1;
 	protected int idCompra;
 	protected LocalDateTime dataHora;
 	protected String nome;
 	protected List<Produto> listaProdutos;
 	protected double precoComDesconto;
 	protected double precoSemDesconto;
-	private static int proximoId = 1;
 	
 	public int getIdCompra() {
 		return idCompra;
@@ -64,21 +64,14 @@ public class Compra {
 		this.precoSemDesconto = precoSemDesconto;
 	}
 
-	public static int getProximoId() {
-		return proximoId;
-	}
-
-	public static void setProximoId(int proximoId) {
-		Compra.proximoId = proximoId;
-	}
-
 	public Compra(int idCompra, LocalDateTime dataHora, String nome, List<Produto> listaProdutos, double precoComDesconto, double precoSemDesconto) {
-		this.idCompra = idCompra;
-		proximoId++;
+		this.idCompra = proximoIdCompra;
 		this.dataHora = dataHora;
 		this.nome = nome;
 		this.listaProdutos = listaProdutos;
 		this.precoComDesconto = precoComDesconto;
 		this.precoSemDesconto = precoSemDesconto;
+		
+		proximoIdCompra++;
 	}
 }
