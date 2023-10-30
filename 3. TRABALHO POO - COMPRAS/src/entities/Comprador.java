@@ -3,6 +3,7 @@ package entities;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -28,6 +29,24 @@ public class Comprador extends Pessoa {
 		while (continuarComprando) {
 			System.out.print("Digite o ID do produto que deseja comprar: ");
 			int idDesejado = scan.nextInt();
+			File estoque = new File("C:\\Users\\ianjo\\OneDrive\\Área de Trabalho\\POO\\json\\produtos\\produtos.json");
+	        String dados = Administrador.lerArquivoProdutos(estoque);
+	        JSONArray produtos = new JSONArray(dados);
+
+	        boolean idExiste = false;
+	        for (int i = 0; i < produtos.length(); i++) {
+	            JSONObject produto = produtos.getJSONObject(i);
+	            int idProduto = produto.getInt("id");
+
+	            if (idProduto == idDesejado) {
+	                idExiste = true;
+	                break;
+	            }
+	        }
+			if (idExiste == false) {
+			    System.out.println("Não existe um produto com esse ID.");
+			    return;
+			}
 			System.out.print("Digite a quantidade desejada: ");
 			int quantidadeDesejada = scan.nextInt();
 
@@ -146,6 +165,7 @@ public class Comprador extends Pessoa {
 		compras.add(compra);
 		
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		DecimalFormat decimalFormat = new DecimalFormat("0.00");
 		
 		JSONArray comprasRealizadas = new JSONArray();
 		for(Compra c : compras) {
@@ -163,7 +183,7 @@ public class Comprador extends Pessoa {
 				produtosDaCompra.put(produtoJSON);
 			}
 			compraJSON.put("listaProdutos", produtosDaCompra);
-			compraJSON.put("precoComDesconto", c.getPrecoComDesconto());
+			compraJSON.put("precoComDesconto", decimalFormat.format(c.getPrecoComDesconto()));
 			compraJSON.put("precoSemDesconto", c.getPrecoSemDesconto());
 			
 			comprasRealizadas.put(compraJSON);
