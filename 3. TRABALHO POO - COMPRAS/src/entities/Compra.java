@@ -13,7 +13,7 @@ public class Compra {
 	protected LocalDateTime dataHora;
 	protected String nome;
 	protected List<Produto> listaProdutos;
-	protected double precoComDesconto;
+	protected double valorFinal;
 	protected double precoSemDesconto;
 	
 	public int getIdCompra() {
@@ -48,12 +48,12 @@ public class Compra {
 		this.listaProdutos = listaProdutos;
 	}
 
-	public double getPrecoComDesconto() {
-		return precoComDesconto;
+	public double getValorFinal() {
+		return valorFinal;
 	}
 
-	public void setPrecoComDesconto(double precoComDesconto) {
-		this.precoComDesconto = precoComDesconto;
+	public void setValorFinal(double valorFinal) {
+		this.valorFinal = valorFinal;
 	}
 
 	public double getPrecoSemDesconto() {
@@ -64,12 +64,12 @@ public class Compra {
 		this.precoSemDesconto = precoSemDesconto;
 	}
 
-	public Compra(int idCompra, LocalDateTime dataHora, String nome, List<Produto> listaProdutos, double precoComDesconto, double precoSemDesconto) {
+	public Compra(int idCompra, LocalDateTime dataHora, String nome, List<Produto> listaProdutos, double valorFinal, double precoSemDesconto) {
 		this.idCompra = proximoIdCompra;
 		this.dataHora = dataHora;
 		this.nome = nome;
 		this.listaProdutos = listaProdutos;
-		this.precoComDesconto = precoComDesconto;
+		this.valorFinal = valorFinal;
 		this.precoSemDesconto = precoSemDesconto;
 		
 		proximoIdCompra++;

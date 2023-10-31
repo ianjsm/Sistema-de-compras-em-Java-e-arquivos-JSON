@@ -9,7 +9,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -146,7 +145,8 @@ public class Comprador extends Pessoa {
 		double valorFinal = 0;
 		
 		if (formaPagamento == 1) {
-			System.out.println("Valor total: " + valorTotalCompra);
+			valorFinal = valorTotalCompra;
+			System.out.println("Valor total: " + valorFinal);
 		} else if (formaPagamento == 2) {
 			valorFinal = valorTotalCompra * 0.9;
 			System.out.println("Valor total: " + valorFinal);
@@ -160,39 +160,48 @@ public class Comprador extends Pessoa {
 		
 		int id = 0;
 		id++;
-		Compra compra = new Compra(id, LocalDateTime.now() , nomeCliente, listaProdutos,valorFinal, valorTotalCompra);
+		Compra compra = new Compra(id, LocalDateTime.now() , nomeCliente, listaProdutos, valorFinal, valorTotalCompra);
 		List<Compra> compras = new ArrayList<>();
 		compras.add(compra);
 		
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 		DecimalFormat decimalFormat = new DecimalFormat("0.00");
 		
-		JSONArray comprasRealizadas = new JSONArray();
-		for(Compra c : compras) {
-			JSONObject compraJSON = new JSONObject();
-			compraJSON.put("idCompra", c.getIdCompra());
-			compraJSON.put("data:", dtf.format(c.getDataHora()));
-			compraJSON.put("nome", c.getNome());
-			
-			JSONArray produtosDaCompra = new JSONArray();
-			for(Produto produto : c.getListaProdutos()) {
-				JSONObject produtoJSON = new JSONObject();
-				produtoJSON.put("nome", produto.getNome());
-				produtoJSON.put("preco", produto.getPreco());
-				produtoJSON.put("quantidade", produto.getQuantidade());
-				produtosDaCompra.put(produtoJSON);
-			}
-			compraJSON.put("listaProdutos", produtosDaCompra);
-			compraJSON.put("precoComDesconto", decimalFormat.format(c.getPrecoComDesconto()));
-			compraJSON.put("precoSemDesconto", c.getPrecoSemDesconto());
-			
-			comprasRealizadas.put(compraJSON);
+		JSONArray comprasRealizadas;
+		File arquivo = new File("C:\\Users\\ianjo\\OneDrive\\Área de Trabalho\\POO\\json\\compras\\compras.json");
+
+		if (arquivo.exists()) {
+		    String comprasJSON = Administrador.lerArquivoProdutos(arquivo);
+		    comprasRealizadas = new JSONArray(comprasJSON);
+		} else {
+		    comprasRealizadas = new JSONArray();
 		}
-		
-		try(FileWriter writer = new FileWriter("C:\\Users\\ianjo\\OneDrive\\Área de Trabalho\\POO\\json\\compras\\compras.json", true)){
-			writer.write(comprasRealizadas.toString(4));
-		}catch(IOException e) {
-			e.printStackTrace();
+
+		for (Compra c : compras) {
+		    JSONObject compraJSON = new JSONObject();
+		    compraJSON.put("idCompra", c.getIdCompra());
+		    compraJSON.put("data:", dtf.format(c.getDataHora()));
+		    compraJSON.put("nome", c.getNome());
+
+		    JSONArray produtosDaCompra = new JSONArray();
+		    for (Produto produto : c.getListaProdutos()) {
+		        JSONObject produtoJSON = new JSONObject();
+		        produtoJSON.put("nome", produto.getNome());
+		        produtoJSON.put("preco", produto.getPreco());
+		        produtoJSON.put("quantidade", produto.getQuantidade());
+		        produtosDaCompra.put(produtoJSON);
+		    }
+		    compraJSON.put("listaProdutos", produtosDaCompra);
+		    compraJSON.put("precoComDesconto", decimalFormat.format(c.getValorFinal()));
+		    compraJSON.put("precoSemDesconto", c.getPrecoSemDesconto());
+
+		    comprasRealizadas.put(compraJSON);
+		}
+
+		try (FileWriter writer = new FileWriter(arquivo)) {
+		    writer.write(comprasRealizadas.toString(4));
+		} catch (IOException e) {
+		    e.printStackTrace();
 		}
 	}
 }

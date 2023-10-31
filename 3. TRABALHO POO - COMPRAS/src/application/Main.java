@@ -46,7 +46,7 @@ public class Main {
 				int opcao_submenu_admin = scan.nextInt();
 
 				if (opcao_submenu_admin == 1) {
-					Pessoa.visualizarProdutos();
+					Administrador.visualizarEstoque();
 				} else if (opcao_submenu_admin == 2) {
 					Administrador.adicionarProduto();
 				} else if (opcao_submenu_admin == 3) {
@@ -66,7 +66,7 @@ public class Main {
 				int opcao_submenu_comprador = scan.nextInt();
 
 				if (opcao_submenu_comprador == 1) {
-					Pessoa.visualizarProdutos();
+					Administrador.visualizarEstoque();
 					Comprador.comprarProduto();
 				}
 				else if(opcao_submenu_comprador == 2) {

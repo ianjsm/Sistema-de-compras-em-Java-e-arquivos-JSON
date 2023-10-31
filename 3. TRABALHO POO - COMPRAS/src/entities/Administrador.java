@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Administrador extends Pessoa {
@@ -77,7 +78,7 @@ public class Administrador extends Pessoa {
 		JSONArray listaProdutosJSON = new JSONArray(conteudoArquivoJsonProdutos);
 
 		System.out.println("Produtos disponíveis: ");
-		Pessoa.visualizarProdutos();
+		Administrador.visualizarEstoque();
 		System.out.println();
 		System.out.print("Digite o nome do produto que deseja editar: ");
 		String nomeProdutoParaEditar = scan.nextLine();
@@ -123,7 +124,7 @@ public class Administrador extends Pessoa {
 		JSONArray listaProdutosJSON = new JSONArray(conteudoDoArquivo);
 
 		System.out.println("Produtos disponíveis: ");
-		Pessoa.visualizarProdutos();
+		Administrador.visualizarEstoque();
 		System.out.println();
 		System.out.print("Digite o nome do produto que deseja remover: ");
 		String nomeProdutoParaRemover = scan.nextLine();
@@ -144,16 +145,63 @@ public class Administrador extends Pessoa {
 		System.out.println("Produto não encontrado!");
 	}
 	
-	public static void visualizarHistoricoDeCompras() {
-		String caminhoArquivoProdutos = "C:\\Users\\ianjo\\OneDrive\\Área de Trabalho\\POO\\json\\compras\\compras.json";
+	public static void visualizarEstoque() {
+	    File file = new File("C:\\Users\\ianjo\\OneDrive\\Área de Trabalho\\POO\\json\\produtos\\produtos.json");
 
-		try (BufferedReader br = new BufferedReader(new FileReader(caminhoArquivoProdutos))) {
-			String linha;
-			while ((linha = br.readLine()) != null) {
-				System.out.println(linha);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	    try {
+	        String estoqueJSON = lerArquivoProdutos(file);
+	        JSONArray jsonArray = new JSONArray(estoqueJSON);
+
+	        for (int i = 0; i < jsonArray.length(); i++) {
+	            JSONObject produto = jsonArray.getJSONObject(i);
+	            int idProduto = produto.getInt("id");
+	            String nomeProduto = produto.getString("nome");
+	            String descricaoProduto = produto.getString("descricao");
+	            double precoProduto = produto.getDouble("preco");
+	            int quantidadeProduto = produto.getInt("quantidade");
+
+	            System.out.println();
+	            System.out.println("ID do Produto: " + idProduto);
+	            System.out.println("Nome do Produto: " + nomeProduto);
+	            System.out.println("Descrição do Produto: " + descricaoProduto);
+	            System.out.println("Preço do Produto: " + precoProduto);
+	            System.out.println("Quantidade em Estoque: " + quantidadeProduto);
+	            System.out.println();
+	        }
+	    } catch (JSONException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public static void visualizarHistoricoDeCompras() {
+		File file = new File("C:\\Users\\ianjo\\OneDrive\\Área de Trabalho\\POO\\json\\compras\\compras.json");
+	    
+	    try {
+	        String comprasJSON = lerArquivoProdutos(file);
+	        JSONArray jsonArray = new JSONArray(comprasJSON);
+
+	        double totalTodasCompras = 0.0;
+
+	        for (int i = 0; i < jsonArray.length(); i++) {
+	            JSONObject compra = jsonArray.getJSONObject(i);
+	            int idCompra = compra.getInt("idCompra");
+	            String dataHora = compra.getString("data:");
+	            String nomeComprador = compra.getString("nome");
+	            double precoComDesconto = Double.parseDouble(compra.getString("precoComDesconto").replace(",", "."));
+
+	            totalTodasCompras += precoComDesconto;
+	            
+	            System.out.println();
+	            System.out.println("ID da compra: " + idCompra);
+	            System.out.println("Data e hora da compra: " + dataHora);
+	            System.out.println("Nome do comprador: " + nomeComprador);
+	            System.out.println("Total da venda: " + precoComDesconto);
+	            System.out.println();
+	        }
+
+	        System.out.println("Total Pago nas Compras: " + totalTodasCompras);
+	    } catch (JSONException e) {
+	        e.printStackTrace();
+	    }
 	}
 }
