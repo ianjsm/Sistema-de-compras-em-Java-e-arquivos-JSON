@@ -74,6 +74,7 @@ public class Comprador extends Pessoa {
 					} else {
 						System.out.println("Quantidade desejada maior do que a disponível.");
 						comprarProduto();
+						return;
 					}
 				}
 			}
