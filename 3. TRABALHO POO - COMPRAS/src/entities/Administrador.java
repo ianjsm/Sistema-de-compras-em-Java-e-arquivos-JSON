@@ -65,6 +65,7 @@ public class Administrador extends Pessoa {
 		try (FileWriter writer = new FileWriter(file)) {
 			writer.write(listaProdutosJSON.toString(4));
 			System.out.println("Produto adicionado com sucesso!");
+			System.out.println();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -78,7 +79,7 @@ public class Administrador extends Pessoa {
 		JSONArray listaProdutosJSON = new JSONArray(conteudoArquivoJsonProdutos);
 
 		System.out.println("Produtos disponíveis: ");
-		Administrador.visualizarEstoque();
+		Pessoa.visualizarEstoque();
 		System.out.println();
 		System.out.print("Digite o nome do produto que deseja editar: ");
 		String nomeProdutoParaEditar = scan.nextLine();
@@ -124,7 +125,7 @@ public class Administrador extends Pessoa {
 		JSONArray listaProdutosJSON = new JSONArray(conteudoDoArquivo);
 
 		System.out.println("Produtos disponíveis: ");
-		Administrador.visualizarEstoque();
+		Pessoa.visualizarEstoque();
 		System.out.println();
 		System.out.print("Digite o nome do produto que deseja remover: ");
 		String nomeProdutoParaRemover = scan.nextLine();
@@ -143,34 +144,6 @@ public class Administrador extends Pessoa {
 			}
 		}
 		System.out.println("Produto não encontrado!");
-	}
-	
-	public static void visualizarEstoque() {
-	    File file = new File("C:\\Users\\ianjo\\OneDrive\\Área de Trabalho\\POO\\json\\produtos\\produtos.json");
-
-	    try {
-	        String estoqueJSON = lerArquivoProdutos(file);
-	        JSONArray jsonArray = new JSONArray(estoqueJSON);
-
-	        for (int i = 0; i < jsonArray.length(); i++) {
-	            JSONObject produto = jsonArray.getJSONObject(i);
-	            int idProduto = produto.getInt("id");
-	            String nomeProduto = produto.getString("nome");
-	            String descricaoProduto = produto.getString("descricao");
-	            double precoProduto = produto.getDouble("preco");
-	            int quantidadeProduto = produto.getInt("quantidade");
-
-	            System.out.println();
-	            System.out.println("ID do Produto: " + idProduto);
-	            System.out.println("Nome do Produto: " + nomeProduto);
-	            System.out.println("Descrição do Produto: " + descricaoProduto);
-	            System.out.println("Preço do Produto: " + precoProduto);
-	            System.out.println("Quantidade em Estoque: " + quantidadeProduto);
-	            System.out.println();
-	        }
-	    } catch (JSONException e) {
-	        e.printStackTrace();
-	    }
 	}
 	
 	public static void visualizarHistoricoDeCompras() {
@@ -200,6 +173,8 @@ public class Administrador extends Pessoa {
 	        }
 
 	        System.out.println("Total Pago nas Compras: " + totalTodasCompras);
+	        System.out.println();
+	        System.out.println();
 	    } catch (JSONException e) {
 	        e.printStackTrace();
 	    }

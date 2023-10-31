@@ -73,7 +73,7 @@ public class Comprador extends Pessoa {
 						listaProdutos.add(produto);
 					} else {
 						System.out.println("Quantidade desejada maior do que a disponível.");
-						return;
+						comprarProduto();
 					}
 				}
 			}
@@ -88,6 +88,7 @@ public class Comprador extends Pessoa {
 				new File("C:\\Users\\ianjo\\OneDrive\\Área de Trabalho\\POO\\json\\carrinho\\carrinho.json"))) {
 			writer.write(carrinho.toString(4));
 			System.out.println("Carrinho salvo com sucesso!");
+			System.out.println();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -203,5 +204,8 @@ public class Comprador extends Pessoa {
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}
+		
+		System.out.println("Compra efetuada com sucesso!");
+		System.out.println();
 	}
 }
