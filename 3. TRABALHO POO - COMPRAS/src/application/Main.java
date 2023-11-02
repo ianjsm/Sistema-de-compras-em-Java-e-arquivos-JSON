@@ -15,12 +15,13 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 		int opcao = 0;
-
+		
+		System.out.println("===== LOJA VIRTUAL =====");
 		while (opcao != 3) {
-			System.out.println("1- ADMIN");
+			System.out.println("1- ADMINISTRADOR");
 			System.out.println("2- COMPRADOR");
 			System.out.println("3- SAIR DO PROGRAMA");
-			System.out.println("Admin ou comprador?");
+			System.out.println("Administrador ou comprador?");
 			opcao = scan.nextInt();
 			scan.nextLine();
 
